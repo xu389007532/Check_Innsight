@@ -1,0 +1,8 @@
+pip install openpyxl
+pip install pymssql
+pip install pandas
+pip install psutil
+pip install pywin32
+pip install pythonnet
+pip install PyQt5
+pip install pyinstaller
