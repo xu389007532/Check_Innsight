@@ -1,0 +1,24 @@
+View:
+SELECT          LTRIM(STR(b.int_campaignID)) + LTRIM(STR(b.int_campaignPhaseNumber)) + '-' + LTRIM(STR(b.int_lotNumber)) 
+                            AS jobnum, b.str_packageCode, COUNT(a.id) AS componentQty, b.str_packageCode + '-' + LTRIM(STR(COUNT(a.id))) 
+                            AS pk_key
+FROM              dbo.Copy_tbl_CampaignLotComponents AS a INNER JOIN
+                            dbo.Copy_tbl_CampaignLots AS b ON a.int_campaignLotID = b.id AND b.str_letterShop = 'Honour' AND 
+                            a.str_componentStatusCode = '100' AND a.str_supplierVendor = 'Honour' AND LEFT(a.str_componentName, 5) 
+                            <> 'Stamp'
+GROUP BY   b.int_campaignID, b.int_campaignPhaseNumber, b.int_lotNumber, b.str_packageCode
+
+
+查詢:
+SELECT 
+    pk_key,
+    STUFF(
+        (SELECT ',' + jobnum
+         FROM [HMPSQL01].[dbo].[V_PackageCode] AS InnerTable
+         WHERE InnerTable.pk_key = OuterTable.pk_key
+         FOR XML PATH('')), 
+        1, 1, '') AS MergedColumn
+FROM 
+    [HMPSQL01].[dbo].[V_PackageCode] AS OuterTable
+GROUP BY 
+    pk_key;
