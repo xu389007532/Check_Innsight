@@ -1,4 +1,4 @@
-#update:2025-01-16 11:331aaassdfdfsg
+#update:2025-01-16 11:331aaass
 from Share import Honour_Share
 # from Share.Honour_Share import Py_Decrypto, update_ver,kill_process
 import win32api
